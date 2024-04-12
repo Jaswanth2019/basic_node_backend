@@ -4,6 +4,9 @@ var app=express()
 
 //database 
 const db=require('./db')
+// .env file using
+require('dotenv').config();
+const port=process.env.PORT ||3000
 
 //body parser
 const bodyparser=require('body-parser');
@@ -84,7 +87,7 @@ app.get('/',(req,res)=>{
 // })
 
 
-app.listen(3000,()=>{
+app.listen(port,()=>{
     console.log('i am listening')
 })
 
