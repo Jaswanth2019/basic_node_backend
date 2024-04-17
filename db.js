@@ -1,11 +1,11 @@
 const mongoose=require('mongoose');
 require('dotenv').config();
 // local url
-// const mongoURl='mongodb://localhost:27017/mydatabase'
+const mongoURl='mongodb://localhost:27017/mydatabase'
 // mydatabase is the name of the mongodb database
 
 // online url 
- const mongoURl=process.env.MONGODB_URL
+//  const mongoURl=process.env.MONGODB_URL
 //setup Mongodb connection
 mongoose.connect(mongoURl,{})
 

@@ -12,8 +12,17 @@ const port=process.env.PORT ||3000
 const bodyparser=require('body-parser');
 app.use(bodyparser.json());
 
-// const person=require('./models/person')
+//  const person=require('./models/person')
 // const menu=require('./models/menu')
+
+
+//middleware function
+const logRequest=(req,res,next)=>{
+    console.log(`[${new Date().toLocaleString()}] Request Made to :${req.originalUrl}`)
+    // to move to next stage we use the next
+    next() 
+}
+app.use(logRequest)
 
 const personroutes=require('./routes/personroutes')
 const menuroutes=require('./routes/menuroutes')
@@ -24,6 +33,7 @@ app.use('/menu',menuroutes)
 app.get('/',(req,res)=>{
     res.send("i created a server")
 })
+
 
 
 
