@@ -12,9 +12,10 @@ const port=process.env.PORT ||3000
 const bodyparser=require('body-parser');
 app.use(bodyparser.json());
 
-//  const person=require('./models/person')
+// const person=require('./models/person')
 // const menu=require('./models/menu')
 
+const passport=require('./auth')
 
 //middleware function
 const logRequest=(req,res,next)=>{
@@ -24,15 +25,20 @@ const logRequest=(req,res,next)=>{
 }
 app.use(logRequest)
 
-const personroutes=require('./routes/personroutes')
-const menuroutes=require('./routes/menuroutes')
 
-app.use('/person',personroutes)
-app.use('/menu',menuroutes)
-
+app.use(passport.initialize())
+const localAuthmiddleware=passport.authenticate('local',{session:false})
 app.get('/',(req,res)=>{
     res.send("i created a server")
 })
+
+
+const personroutes=require('./routes/personroutes')
+const menuroutes=require('./routes/menuroutes')
+
+app.use('/person',localAuthmiddleware,personroutes)
+app.use('/menu',menuroutes)
+
 
 
 
