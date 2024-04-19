@@ -7,12 +7,13 @@ const person=require('./models/person')
 passport.use(new localstrategy(async (USERNAME,password,done)=>{
     //authentication code 
     try{
-        console.log("credentials recieved",USERNAME,password)
+        // console.log("credentials recieved",USERNAME,password)
         const user=await person.findOne({username:USERNAME})
         if(!user){
             return done(null,false,{message:'incorrect username'})
         }
-        const passwordmatch=user.password===password?true:false
+        // const passwordmatch=user.password===password?true:false
+        const passwordmatch=await user.comparePassword(password)
         if(passwordmatch){
             return done(null,user)
         }
