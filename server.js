@@ -35,8 +35,9 @@ app.get('/',(req,res)=>{
 
 const personroutes=require('./routes/personroutes')
 const menuroutes=require('./routes/menuroutes')
-
-app.use('/person',localAuthmiddleware,personroutes)
+// to have authentication with the help of token we remove the localauthmiddleware
+// app.use('/person',localAuthmiddleware,personroutes)
+app.use('/person',personroutes)
 app.use('/menu',menuroutes)
 
 
