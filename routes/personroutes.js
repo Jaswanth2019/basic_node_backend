@@ -8,12 +8,12 @@ router.post('/signup',async(req,res)=>{
         const newperson=new person(data);
         const response=await newperson.save()
         console.log("data saved")
-        // const payload={ 
-        //     id: response.id,
-        //     username: response.username
-        // }
-        // console.log(JSON.stringify(payload))
-        const token=generateTOken(response.username)
+        const payload={ 
+            id: response.id,
+            username: response.username
+        }
+        console.log(JSON.stringify(payload))
+        const token=generateTOken(payload)
         console.log("token is",token)
         res.status(200).json({response:response,token:token});
     }
@@ -51,8 +51,23 @@ router.post('/login',async (req,res)=>{
     }
 })
 
+// profile route
+router.get('/profile',jwtAuthMiddleware, async(req,res)=>{
+    try{
+        const userData=req.user
+        console.log("user data :",userData)
+        const userid=userData.id
+        const user=await person.findById(userid)
+        res.status(200).json({user})
+    }
+    catch(err){
+        console.error(err)
+        res.status(500).json({error:"internal server error"})
+    }
+})
 
-router.get('/',async(req,res)=>{
+
+router.get('/',jwtAuthMiddleware,async(req,res)=>{
     try{
         const data=await person.find()
         console.log("data fetched")
